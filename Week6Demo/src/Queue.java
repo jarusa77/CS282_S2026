@@ -56,5 +56,16 @@ public class Queue
 		return false;
 	}
 	
+	public void PrintList()
+	{
+		for(int item : Data)
+		{
+			if(item==0)
+				break;
+				
+			System.out.println(item);
+		}
+	}
+	
 	
 }

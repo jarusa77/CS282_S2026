@@ -29,6 +29,9 @@ public class main {
 		q.Enqueue(15);
 		q.Enqueue(32);
 		q.Enqueue(56);
+		
+		q.PrintList();
+		/*
 		System.out.println(q.getSize());
 		System.out.println(q.getFirst());
 		System.out.println(q.getSize());
@@ -38,6 +41,7 @@ public class main {
 		System.out.println(q.Dequeue());
 		System.out.println(q.Dequeue());
 		System.out.println(q.Dequeue());
+		*/
 
 
 
