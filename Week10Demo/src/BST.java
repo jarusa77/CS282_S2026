@@ -78,16 +78,140 @@ public class BST
 	{
 		if(root==null) return "";
 		
-		String str = String.format("%d", root.Key);
+		String Middle = String.format("%d", root.Key);
 		
-		str=str +","+PrintNodes(root.Left) + PrintNodes(root.Right);
+		//Middle Left Right Pre-Order Notation
+		String str=Middle +","+PrintNodes(root.Left) + PrintNodes(root.Right);
 		
-		return str;
+		String PostOrderStr = PrintNodes(root.Left) + PrintNodes(root.Right) + Middle + ", ";
+				
+		String InOrderStr = PrintNodes(root.Left)+ Middle +","+PrintNodes(root.Right);
+		return InOrderStr;
 	}
 	
 	
-	//Delete
-	//FindNode
+	public void Delete(int key)
+	{
+		if(isEmpty())
+			return;
+		
+		if(!Find(key))
+		{
+			System.out.println("Key not Found!");
+			return;
+		}
+		DeleteNode();
+		
+	}
+	
+	private void DeleteNode()
+	{
+		if(current==Root)
+		{
+			if(Root.Left==null && Root.Right==null)
+				Root=null;
+			else if(Root.Left==null)
+				Root = Root.Right;
+			else if(Root.Right==null)
+				Root=Root.Left;
+			else
+			{
+				Node RML = LeftMost(Root.Right);
+				
+				Root.Key = RML.Key;
+				Root.data = RML.data;
+				
+				FindNode(Root.Right,Root.Key);
+				DeleteNode();
+				
+			}
+			return;
+		}
+		
+		if(current.Left==null && current.Right==null)
+		{
+			if(parent.Left==current)
+				parent.Left=null;
+			else
+				parent.Right=null;
+		}
+		else if(current.Left==null)//right child only
+		{
+			if(parent.Left==current)
+				parent.Left=current.Right;
+			else
+				parent.Right=current.Right;
+		}
+		else if(current.Right==null)//left child only
+		{
+			if(parent.Left==current)
+				parent.Left=current.Left;
+			else
+				parent.Right=current.Left;
+		}
+		else//Has both Left and Right Child
+		{
+			Node RML = LeftMost(current.Right);
+			
+			current.Key = RML.Key;
+			current.data = RML.data;
+			
+			FindNode(current.Right,current.Key);
+			DeleteNode();
+		}
+	}
+	
+	private Node LeftMost(Node root)
+	{
+		if(root.Left==null)
+			return root;
+		
+		return LeftMost(root.Left);
+	}
+	
+	//if found==true then current set to Key Node
+	public boolean Find(int key)
+	{
+		current=null;
+		parent=null;
+		return FindNode(Root, key);
+			
+	}
+	
+	private boolean FindNode(Node root,int key)
+	{
+		if(root==null)return false;
+		
+		
+		if(root.Key == key)
+		{
+			current=root;
+			return true;
+		}
+		if(root.Key>key)
+		{
+			if(root.Left==null)
+				return false;
+			else
+			{
+				parent=root;
+				return FindNode(root.Left,key);
+			}
+		}
+		else//root.Key<=key
+		{
+			if(root.Right==null)
+				return false;
+			else
+			{
+				parent=root;
+				return FindNode(root.Right,key);
+			}
+		}
+		
+	}
+	
+	
 	public boolean isEmpty()
 	{
 		if(Root==null)
